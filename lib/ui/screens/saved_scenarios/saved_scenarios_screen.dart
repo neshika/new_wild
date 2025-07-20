@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/ui/screens/saved_scenarios/components/scenario_item.dart';
 
 class SavedScenariosScreen extends StatelessWidget {
   const SavedScenariosScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: DecoratedBox(
-        //ctrl . wrapp with center
-        decoration: BoxDecoration(
-          color: Colors.amber,
-        ),
-        child: SizedBox(
-          height: 200,
-          width: 200,
-        ),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Saved Scenarios'),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.logout), // кнопка справа
+          ),
+        ],
+      ),
+      body: Center(
+        child: ScenarioItem(),
       ),
     );
   }
