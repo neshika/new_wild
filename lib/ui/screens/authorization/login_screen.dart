@@ -52,7 +52,31 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Enter your Password',
                     border: OutlineInputBorder(),
                   ),
+                  obscureText: true, //текст звездочки
                 ),
+                const SizedBox(
+                  height: 20.0,
+                ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Login'),
+                    ),
+                    const SizedBox(
+                      width: 20.0,
+                    ),
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text('Register'),
+                    )
+                  ],
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+                TextButton(onPressed: () {}, child: Text('Forgot password'))
               ],
             ),
           ),
