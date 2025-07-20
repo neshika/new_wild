@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_wild/services/helpers.dart';
+import 'package:new_wild/ui/screens/authorization/forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -89,7 +90,16 @@ class _LoginScreenState extends State<LoginScreen> {
                   height: 10.0,
                 ),
                 TextButton(
-                    onPressed: () {}, child: const Text('Forgot password'))
+                    onPressed: () {
+                      //Для перехода на линк
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ForgotPasswordScreen(),
+                        ),
+                      );
+                    },
+                    child: const Text('Forgot password'))
               ],
             ),
           ),
