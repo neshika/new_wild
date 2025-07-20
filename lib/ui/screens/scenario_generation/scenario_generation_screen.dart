@@ -5,6 +5,17 @@ class ScenarioGenerationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Placeholder();
+    return Center(
+      child: DecoratedBox(
+        //ctrl . wrapp with center
+        decoration: BoxDecoration(
+          color: Colors.green,
+        ),
+        child: SizedBox(
+          height: 200,
+          width: 200,
+        ),
+      ),
+    );
   }
 }
