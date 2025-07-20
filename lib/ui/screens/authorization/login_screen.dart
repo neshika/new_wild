@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/services/helpers.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,6 +12,9 @@ class _LoginScreenState extends State<LoginScreen> {
   //создаем контролер для Почты и пароля (проверять на валидность)
   late final TextEditingController _emailController;
   late final TextEditingController _passwordController;
+  // создаем ключ, чтобы обращаться к нашей форме
+  final _formKey = GlobalKey<FormState>();
+
   @override
   void initState() {
     super.initState();
@@ -25,6 +29,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Form(
+            key: _formKey,
             child: Column(
               mainAxisSize:
                   MainAxisSize.min, //все элементы растянуты по минимуму
@@ -41,6 +46,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     hintText: 'Enter your Email',
                     border: OutlineInputBorder(),
                   ),
+                  validator: validateEmail,
                 ),
                 const SizedBox(
                   height: 20.0,
@@ -61,14 +67,20 @@ class _LoginScreenState extends State<LoginScreen> {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        //Логика валидации ташего текста
+                        _formKey.currentState!.validate();
+                      },
                       child: const Text('Login'),
                     ),
                     const SizedBox(
                       width: 20.0,
                     ),
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        //Логика валидации ташего текста
+                        _formKey.currentState!.validate();
+                      },
                       child: const Text('Register'),
                     )
                   ],
@@ -76,7 +88,8 @@ class _LoginScreenState extends State<LoginScreen> {
                 const SizedBox(
                   height: 10.0,
                 ),
-                TextButton(onPressed: () {}, child: Text('Forgot password'))
+                TextButton(
+                    onPressed: () {}, child: const Text('Forgot password'))
               ],
             ),
           ),

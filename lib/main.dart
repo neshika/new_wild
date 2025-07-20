@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:new_wild/ui/home_screen.dart';
+//import 'package:new_wild/ui/home_screen.dart';
 import 'package:new_wild/ui/screens/authorization/login_screen.dart';
 
 void main() {
