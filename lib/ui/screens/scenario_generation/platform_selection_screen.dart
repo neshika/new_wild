@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/services/helpers.dart';
 import 'package:new_wild/ui/screens/scenario_generation/components/generate_scenario_tile.dart';
+import 'package:new_wild/ui/screens/scenario_generation/scenario_generation_screen.dart';
 
 class PlatformSelectionScreen extends StatelessWidget {
   const PlatformSelectionScreen({super.key});
@@ -20,6 +22,13 @@ class PlatformSelectionScreen extends StatelessWidget {
               assetPath: 'assets/icons/icons8-youtube.svg',
               title: 'YouTube',
               description: 'Generated a scenario for YouTube shorts.',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ScenarioGenerationScreen(
+                      socialPlatform: SocialPlatform.youtube),
+                ),
+              ),
             ),
             SizedBox(
               height: 20.0,

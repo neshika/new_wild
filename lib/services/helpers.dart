@@ -10,3 +10,5 @@ String? validateEmail(String? email) {
 
   return null;
 }
+
+enum SocialPlatform { youtube, vk }
