@@ -6,13 +6,15 @@ class ScenarioGenerationScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: GenerateScenarioTile(
-        backgroundColor: Colors.blue,
-        iconBackgroundColor: Colors.blue[400],
-        assetPath: 'assets/icons/icons8-youtube.svg',
-        title: 'YouTube',
-        description: 'Generated a scenario for YouTube shorts.',
+    return Scaffold(
+      body: Center(
+        child: GenerateScenarioTile(
+          backgroundColor: Colors.blue,
+          iconBackgroundColor: Colors.blue[400],
+          assetPath: 'assets/icons/icons8-youtube.svg',
+          title: 'YouTube',
+          description: 'Generated a scenario for YouTube shorts.',
+        ),
       ),
     );
   }

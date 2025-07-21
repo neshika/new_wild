@@ -44,6 +44,7 @@ class _GenerateScenarioTileState extends State<GenerateScenarioTile> {
       child: DecoratedBox(
         decoration: BoxDecoration(
           //Цвет, если нажата, то карточка осветляется
+
           color: isPressed
               ? widget.backgroundColor.withValues(alpha: 90)
               : widget.backgroundColor,

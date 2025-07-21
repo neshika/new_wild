@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:new_wild/ui/screens/saved_scenarios/saved_scenarios_screen.dart';
-import 'package:new_wild/ui/screens/scenario_generation/scenario_generation_screen.dart';
+import 'package:new_wild/ui/screens/scenario_generation/platform_selection_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   //ctrl .
@@ -15,7 +15,7 @@ class _HomeScreenState extends State<HomeScreen> {
   int _selectedIndex = 0; // 0 = Home, 1 = Saved
 
   final List<Widget> _screens = [
-    const ScenarioGenerationScreen(),
+    const PlatformSelectionScreen(),
     const SavedScenariosScreen(),
   ];
 
