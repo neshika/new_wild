@@ -39,6 +39,13 @@ class PlatformSelectionScreen extends StatelessWidget {
               assetPath: 'assets/icons/icons8-vk.svg',
               title: 'VK',
               description: 'Generated a scenario for VK clips.',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => ScenarioGenerationScreen(
+                      socialPlatform: SocialPlatform.vk),
+                ),
+              ),
             ),
           ],
         ),

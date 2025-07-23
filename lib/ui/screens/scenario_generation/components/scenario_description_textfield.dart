@@ -6,11 +6,13 @@ class ScenarioDescriptionTextfield extends StatelessWidget {
     required this.title,
     required this.hint,
     required this.controller,
+    required this.validator,
   });
 
   final String title;
   final String hint;
   final TextEditingController controller;
+  final String? Function(String?) validator;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +29,14 @@ class ScenarioDescriptionTextfield extends StatelessWidget {
         SizedBox(
           height: 5,
         ),
-        TextField()
+        TextFormField(
+          validator: validator,
+          controller: controller,
+          decoration: InputDecoration(
+            labelText: hint,
+            border: const OutlineInputBorder(),
+          ),
+        ) //чтобы валидировать
       ],
     );
   }
