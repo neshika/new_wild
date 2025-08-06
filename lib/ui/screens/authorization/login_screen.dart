@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/services/auth.dart';
 import 'package:new_wild/services/helpers.dart';
 import 'package:new_wild/ui/screens/authorization/forgot_password_screen.dart';
 
@@ -15,6 +16,7 @@ class _LoginScreenState extends State<LoginScreen> {
   late final TextEditingController _passwordController;
   // создаем ключ, чтобы обращаться к нашей форме
   final _formKey = GlobalKey<FormState>();
+  final authService = Auth();
 
   @override
   void initState() {
@@ -69,8 +71,13 @@ class _LoginScreenState extends State<LoginScreen> {
                   children: [
                     ElevatedButton(
                       onPressed: () {
-                        //Логика валидации ташего текста
-                        _formKey.currentState!.validate();
+                        //Логика валидации вашего текста
+                        if (_formKey.currentState!.validate()) {
+                          //Если валидация прошла, то логинимся
+                          authService.signInWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text);
+                        }
                       },
                       child: const Text('Login'),
                     ),
@@ -79,8 +86,13 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     ElevatedButton(
                       onPressed: () {
-                        //Логика валидации ташего текста
-                        _formKey.currentState!.validate();
+                        //Логика валидации вашего текста
+                        if (_formKey.currentState!.validate()) {
+                          //Если валидация прошла, то регистрируемся
+                          authService.createUserWithEmailAndPassword(
+                              email: _emailController.text,
+                              password: _passwordController.text);
+                        }
                       },
                       child: const Text('Register'),
                     )
