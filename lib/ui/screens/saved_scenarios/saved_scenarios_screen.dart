@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/services/auth.dart';
 import 'package:new_wild/ui/screens/saved_scenarios/components/scenario_item.dart';
 
 class SavedScenariosScreen extends StatelessWidget {
@@ -11,7 +12,9 @@ class SavedScenariosScreen extends StatelessWidget {
         title: Text('Saved Scenarios'),
         actions: [
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Auth().signOut();
+            },
             icon: Icon(Icons.logout), // кнопка справа
           ),
         ],

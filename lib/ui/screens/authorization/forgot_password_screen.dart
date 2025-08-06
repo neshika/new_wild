@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/services/auth.dart';
 import 'package:new_wild/services/helpers.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -13,6 +14,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   late final TextEditingController _emailController;
   // создаем ключ, чтобы обращаться к нашей форме
   final _formKey = GlobalKey<FormState>();
+  final authService = Auth();
 
   @override
   void initState() {
@@ -51,7 +53,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                 ElevatedButton(
                   onPressed: () {
                     //Логика валидации ташего текста
-                    _formKey.currentState!.validate();
+                    if (_formKey.currentState!.validate()) {
+                      authService.repearPassword(email: _emailController.text);
+                      Navigator.pop(context);
+                    }
                   },
                   child: const Text('Send Reset Link'),
                 ),
