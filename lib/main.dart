@@ -35,6 +35,7 @@ import 'package:new_wild/services/dio_client.dart';
 
 void main() async {
   final client = DioClient.instance;
-  final response = await client.getScenario('Tell a joke');
+  final response =
+      await client.getScenario('Шутка про мобильного разработчика');
   print(response);
 }
