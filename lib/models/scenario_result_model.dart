@@ -27,7 +27,7 @@ class ScenarioResultModel {
       id: json['id'],
       title: json['title'],
       body: json['body'],
-      request: ScenarioRequestModel.fromJson(json['videoLengthInSecond']),
+      request: ScenarioRequestModel.fromJson(json['request']),
     );
   }
 }

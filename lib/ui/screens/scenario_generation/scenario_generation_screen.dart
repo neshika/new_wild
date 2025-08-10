@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/services/dio_client.dart';
 import 'package:new_wild/services/helpers.dart';
 import 'package:new_wild/ui/screens/scenario_generation/components/scenario_description_textfield.dart';
 
@@ -18,10 +19,11 @@ class ScenarioGenerationScreen extends StatefulWidget {
 class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
   final videoThemeController = TextEditingController();
   final targetAudienceController = TextEditingController();
-  final videoLengthController = TextEditingController();
+  final videolengthController = TextEditingController();
   final contentStyleThemeController = TextEditingController();
   final callToActionController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final client = DioClient.instance;
 
   @override
   void dispose() {
@@ -30,7 +32,7 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
     super.dispose();
     videoThemeController.dispose();
     targetAudienceController.dispose();
-    videoLengthController.dispose();
+    videolengthController.dispose();
     contentStyleThemeController.dispose();
     callToActionController.dispose();
   }
@@ -86,7 +88,7 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
                     }
                     return null;
                   },
-                  controller: videoLengthController,
+                  controller: videolengthController,
                 ),
                 const SizedBox(height: 16.0),
                 // стиль контента
@@ -116,8 +118,19 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
                 ),
                 const SizedBox(height: 24.0),
                 ElevatedButton(
-                  onPressed: () {
-                    formKey.currentState!.validate();
+                  onPressed: () async {
+                    if (formKey.currentState!.validate()) {
+                      final res = await getScenario(
+                          socialPlatform: widget.socialPlatform,
+                          videoTheme: videoThemeController.text,
+                          targetAudience: targetAudienceController.text,
+                          videoLength: videolengthController.text,
+                          contentStyle: contentStyleThemeController.text,
+                          callToAction: callToActionController.text,
+                          client: client);
+
+                      print(res.body);
+                    }
                   },
                   style: ElevatedButton.styleFrom(
                     //padding: EdgeInsetsDirectional.symmetric(vertical: 12.0),

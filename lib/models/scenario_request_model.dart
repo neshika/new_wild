@@ -22,7 +22,7 @@ class ScenarioRequestModel {
       'platform': platform.toString(),
       'videoTheme': videoTheme,
       'targetAudience': targetAudience,
-      'videoLenghtInSecond': videoLengthInSecond,
+      'videoLengthInSecond': videoLengthInSecond,
       'contentStyle': contentStyle,
       'callToAction': callToAction,
     };
