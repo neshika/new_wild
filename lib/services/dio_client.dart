@@ -47,15 +47,15 @@ class DioClient {
     } on DioException catch (e) {
       // ✅ Показываем детали ошибки
       if (e.response != null) {
-        print('Status: ${e.response?.statusCode}');
-        print('Response data: ${e.response?.data}');
-        print('Headers: ${e.response?.headers}');
+      //  print('Status: ${e.response?.statusCode}');
+      //  print('Response data: ${e.response?.data}');
+      //  print('Headers: ${e.response?.headers}');
       } else {
-        print('Error: ${e.message}');
+       // print('Error: ${e.message}');
       }
       rethrow;
     } catch (e) {
-      print('General error: $e');
+    //  print('General error: $e');
       rethrow;
     }
   }

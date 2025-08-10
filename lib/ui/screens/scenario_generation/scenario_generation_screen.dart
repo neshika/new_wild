@@ -24,6 +24,7 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
   final callToActionController = TextEditingController();
   final formKey = GlobalKey<FormState>();
   final client = DioClient.instance;
+  bool isLoading = false;
 
   @override
   void dispose() {
@@ -120,6 +121,9 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
                 ElevatedButton(
                   onPressed: () async {
                     if (formKey.currentState!.validate()) {
+                      setState(() {
+                        isLoading = true; //начинаю загрузку нашего сценария
+                      });
                       final res = await getScenario(
                           socialPlatform: widget.socialPlatform,
                           videoTheme: videoThemeController.text,
@@ -128,18 +132,26 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
                           contentStyle: contentStyleThemeController.text,
                           callToAction: callToActionController.text,
                           client: client);
-
-                      print(res.body);
+                      setState(() {
+                        isLoading = false; //загрузка нашего сценария завершена
+                      });
+                      //  print(res.body);
                     }
                   },
+                  //кнопка внизу Submit
                   style: ElevatedButton.styleFrom(
                     //padding: EdgeInsetsDirectional.symmetric(vertical: 12.0),
                     padding: EdgeInsetsDirectional.all(10.0),
                   ),
-                  child: Text(
-                    'Submit',
-                    style: TextStyle(fontSize: 18.0),
-                  ),
+                  //если будет загрузка, то внутни будет крутится индикатор
+                  child: isLoading
+                      ? const Center(
+                          child: CircularProgressIndicator(),
+                        )
+                      : const Text(
+                          'Submit',
+                          style: TextStyle(fontSize: 18.0),
+                        ),
                 ),
               ],
             ),

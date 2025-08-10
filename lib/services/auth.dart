@@ -22,7 +22,7 @@ class Auth {
         password: password,
       );
     } on FirebaseAuthException catch (error) {
-      print(error);
+      // print(error);
     }
   }
 
@@ -41,7 +41,7 @@ class Auth {
         email: email,
       );
     } on FirebaseAuthException catch (error) {
-      print(error);
+      //  print(error);
     }
   }
 
@@ -56,7 +56,7 @@ class Auth {
         password: password,
       );
     } on FirebaseAuthException catch (error) {
-      print(error);
+      // print(error);
     }
   }
 }
