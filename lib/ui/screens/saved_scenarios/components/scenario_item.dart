@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:new_wild/models/scenario_result_model.dart';
 
 class ScenarioItem extends StatefulWidget {
-  const ScenarioItem({super.key});
+  const ScenarioItem({required this.scenario, super.key});
+  final ScenarioResultModel scenario;
 
   @override
   State<ScenarioItem> createState() => _ScenarioItemState();
@@ -32,7 +34,7 @@ class _ScenarioItemState extends State<ScenarioItem> {
                 children: [
                   Expanded(
                     child: Text(
-                      'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus.',
+                      widget.scenario.title,
                       style: TextStyle(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,
@@ -56,7 +58,7 @@ class _ScenarioItemState extends State<ScenarioItem> {
               ),
               if (!_isExpanded)
                 Text(
-                  'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit.',
+                  widget.scenario.body,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 14.0, color: Colors.black54),
@@ -66,7 +68,7 @@ class _ScenarioItemState extends State<ScenarioItem> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Lorem ipsum dolor sit amet consectetur adipiscing elit quisque faucibus ex sapien vitae pellentesque sem placerat in id cursus mi pretium tellus duis convallis tempus leo eu aenean sed diam urna tempor pulvinar vivamus fringilla lacus nec metus bibendum egestas iaculis massa nisl malesuada lacinia integer nunc posuere ut hendrerit.',
+                      widget.scenario.body,
                       style: TextStyle(fontSize: 14.0, color: Colors.black54),
                     ),
                     Divider(
@@ -76,10 +78,14 @@ class _ScenarioItemState extends State<ScenarioItem> {
                     SizedBox(
                       height: 8.0,
                     ),
-                    _buildDetaliRows('Platforms', 'YouTube'),
-                    _buildDetaliRows('Theme', 'YouTube'),
-                    _buildDetaliRows('Target Auditory', 'YouTube'),
-                    _buildDetaliRows('Call To action', 'YouTube'),
+                    _buildDetaliRows(
+                        'Platforms', widget.scenario.request.platform.name),
+                    _buildDetaliRows(
+                        'Theme', widget.scenario.request.videoTheme),
+                    _buildDetaliRows('Target Auditory',
+                        widget.scenario.request.targetAudience),
+                    _buildDetaliRows(
+                        'Call To action', widget.scenario.request.callToAction),
                     SizedBox(
                       height: 16.0,
                     ),
