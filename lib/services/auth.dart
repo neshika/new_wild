@@ -7,6 +7,9 @@ class Auth {
   //получааем пользователя
   User? get getCurrentUser => _firebaseAuth.currentUser;
 
+  //получаем id пользователя
+  String? get getUserId => _firebaseAuth.currentUser?.uid;
+
   //подписка на изменения проверяем залогинен пользователь или нет
   Stream<User?> get getAuthStateChange => _firebaseAuth.authStateChanges();
 
