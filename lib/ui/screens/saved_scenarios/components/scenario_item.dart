@@ -2,8 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:new_wild/models/scenario_result_model.dart';
 
 class ScenarioItem extends StatefulWidget {
-  const ScenarioItem({required this.scenario, super.key});
+  //переменные
+  const ScenarioItem({
+    required this.scenario, //обязательный параметр
+    this.onShare, //необязательный параметр
+    this.onDelete, //необязательный параметр
+    super.key,
+  });
   final ScenarioResultModel scenario;
+  final VoidCallback? onShare;
+  final VoidCallback? onDelete;
 
   @override
   State<ScenarioItem> createState() => _ScenarioItemState();
@@ -92,12 +100,14 @@ class _ScenarioItemState extends State<ScenarioItem> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.end,
                       children: [
+                        //кнопка поделиться
                         IconButton(
-                          onPressed: () {},
+                          onPressed: widget.onShare,
                           icon: Icon(Icons.share, color: Colors.blue),
                         ),
+                        //кнопка удалить
                         IconButton(
-                          onPressed: () {},
+                          onPressed: widget.onDelete,
                           icon: Icon(Icons.delete, color: Colors.red),
                         ),
                       ],

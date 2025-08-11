@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:new_wild/services/dio_client.dart';
+import 'package:new_wild/services/firebase_storage.dart';
 import 'package:new_wild/services/helpers.dart';
-import 'package:new_wild/services/scenario_storage.dart';
 import 'package:new_wild/ui/screens/scenario_generation/components/scenario_description_textfield.dart';
 
 class ScenarioGenerationScreen extends StatefulWidget {
@@ -133,8 +133,9 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
                           contentStyle: contentStyleThemeController.text,
                           callToAction: callToActionController.text,
                           client: client);
-                      await ScenarioStorage()
-                          .saveScenario(res); //сохраняем результат
+                      // await ScenarioStorage().saveScenario(res); //сохраняем результат
+                      //обращаемся к ФБ сторадж
+                      await FirebaseStorage().saveScenario(res);
                       setState(() {
                         isLoading = false; //загрузка нашего сценария завершена
                       });
