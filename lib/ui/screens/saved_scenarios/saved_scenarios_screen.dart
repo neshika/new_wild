@@ -3,6 +3,7 @@ import 'package:new_wild/models/scenario_result_model.dart';
 import 'package:new_wild/services/auth.dart';
 import 'package:new_wild/services/firebase_storage.dart';
 import 'package:new_wild/ui/screens/saved_scenarios/components/scenario_item.dart';
+import 'package:new_wild/ui/screens/saved_scenarios/components/stub.dart';
 import 'package:share_plus/share_plus.dart';
 
 class SavedScenariosScreen extends StatefulWidget {
@@ -44,15 +45,19 @@ class _SavedScenariosScreenState extends State<SavedScenariosScreen>
               child: CircularProgressIndicator(),
             );
           } else if (snapshot.hasError) {
-            return Center(
-              child: Text('Has error ${snapshot.error}'),
+            return Stub(
+              text: 'Has error ${snapshot.error}',
+              icon: Icons.warning,
+              iconColor: Colors.red[800],
             );
           } else if (snapshot.hasData && snapshot.data != null) {
             //получаем сценарии
             final scenarios = snapshot.data!;
             if (scenarios.isEmpty) {
-              return Center(
-                child: Text('Null saved scenarios. \n Generate new scenario'),
+              return Stub(
+                text: 'Null saved scenarios. \n Generate new scenario',
+                icon: Icons.dangerous,
+                iconColor: Colors.yellow[800],
               );
             }
             return ListView.builder(
@@ -71,8 +76,10 @@ class _SavedScenariosScreenState extends State<SavedScenariosScreen>
               },
             );
           } else {
-            return const Center(
-              child: Text('No data available'),
+            return Stub(
+              text: 'No data available',
+              icon: Icons.dangerous,
+              iconColor: Colors.red[800],
             );
           }
         },
