@@ -13,6 +13,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   // создаем переменные
   int _selectedIndex = 0; // 0 = Home, 1 = Saved
+  late final PageController _pageController;
 
   final List<Widget> _screens = [
     const PlatformSelectionScreen(),
@@ -23,13 +24,31 @@ class _HomeScreenState extends State<HomeScreen> {
   void _onItemTap(int index) {
     setState(() {
       _selectedIndex = index;
+      _pageController.jumpToPage(_selectedIndex);
     });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _pageController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _screens[_selectedIndex], // показывает экран, который выбрали
+      // body: _screens[_selectedIndex], // показывает экран, который выбрали
+      body: PageView(
+        controller: _pageController,
+        physics: const NeverScrollableScrollPhysics(),
+        children: _screens,
+      ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadiusDirectional.only(

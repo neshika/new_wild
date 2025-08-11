@@ -5,13 +5,23 @@ import 'package:new_wild/services/firebase_storage.dart';
 import 'package:new_wild/ui/screens/saved_scenarios/components/scenario_item.dart';
 import 'package:share_plus/share_plus.dart';
 
-class SavedScenariosScreen extends StatelessWidget {
+class SavedScenariosScreen extends StatefulWidget {
   const SavedScenariosScreen({
     super.key,
   });
 
   @override
+  State<SavedScenariosScreen> createState() => _SavedScenariosScreenState();
+}
+
+class _SavedScenariosScreenState extends State<SavedScenariosScreen>
+    with AutomaticKeepAliveClientMixin<SavedScenariosScreen> {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
     return Scaffold(
       appBar: AppBar(
         title: Text('Saved Scenarios'),
