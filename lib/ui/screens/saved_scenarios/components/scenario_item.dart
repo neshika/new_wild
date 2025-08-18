@@ -64,15 +64,15 @@ class _ScenarioItemState extends State<ScenarioItem> {
                       )),
                 ],
               ),
-              if (!_isExpanded)
-                Text(
+              //анимация медленного развертывания
+              AnimatedCrossFade(
+                firstChild: Text(
                   widget.scenario.body,
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   style: TextStyle(fontSize: 14.0, color: Colors.black54),
                 ),
-              if (_isExpanded)
-                Column(
+                secondChild: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
@@ -113,7 +113,12 @@ class _ScenarioItemState extends State<ScenarioItem> {
                       ],
                     )
                   ],
-                )
+                ),
+                crossFadeState: _isExpanded
+                    ? CrossFadeState.showSecond
+                    : CrossFadeState.showFirst,
+                duration: Duration(milliseconds: 200),
+              ),
             ],
           ),
         ));
