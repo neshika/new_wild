@@ -70,14 +70,8 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           child: BottomNavigationBar(
             items: <BottomNavigationBarItem>[
-              BottomNavigationBarItem(
-                icon: Icon(Icons.home),
-                label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.bookmark),
-                label: 'Saved',
-              ),
+              _buildNavigationBarItem(Icons.home, 'Home', 0),
+              _buildNavigationBarItem(Icons.bookmark, 'Saved', 1),
             ],
             currentIndex: _selectedIndex,
             selectedItemColor: Colors.blue[600], //цвет выбранного меню
@@ -90,6 +84,31 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  //функция для анимации
+  BottomNavigationBarItem _buildNavigationBarItem(
+      IconData icon, String label, int index) {
+    bool isSelected = index == _selectedIndex;
+    return BottomNavigationBarItem(
+      icon: TweenAnimationBuilder(
+        tween: Tween<double>(begin: 1.0, end: isSelected ? 1.2 : 1.0),
+        duration: Duration(milliseconds: 300),
+        builder: (
+          context,
+          scale,
+          child,
+        ) =>
+            Transform.scale(
+          scale: scale,
+          child: Icon(
+            icon,
+            color: isSelected ? Colors.blue[600] : Colors.grey[400],
+          ),
+        ),
+      ),
+      label: label,
     );
   }
 }
