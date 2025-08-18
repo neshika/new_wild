@@ -24,7 +24,7 @@ class Auth {
         email: email,
         password: password,
       );
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException {
       // print(error);
     }
   }
@@ -43,7 +43,7 @@ class Auth {
       await _firebaseAuth.sendPasswordResetEmail(
         email: email,
       );
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException {
       //  print(error);
     }
   }
@@ -58,7 +58,7 @@ class Auth {
         email: email,
         password: password,
       );
-    } on FirebaseAuthException catch (error) {
+    } on FirebaseAuthException {
       // print(error);
     }
   }
