@@ -1,7 +1,11 @@
+// Импортируем необходимые библиотеки Flutter
 import 'package:flutter/material.dart';
+// Импортируем наш сервис аутентификации
 import 'package:new_wild/services/auth.dart';
+// Импортируем вспомогательные функции, включая validateEmail
 import 'package:new_wild/services/helpers.dart';
 
+// Экран восстановления пароля
 class ForgotPasswordScreen extends StatefulWidget {
   const ForgotPasswordScreen({super.key});
 
@@ -10,15 +14,19 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
-  //создаем контролер для Почты и пароля (проверять на валидность)
+  // Контроллер для поля ввода email - позволяет получать и управлять текстом
   late final TextEditingController _emailController;
-  // создаем ключ, чтобы обращаться к нашей форме
+
+  // Ключ для доступа и управления состоянием формы (валидация и т.д.)
   final _formKey = GlobalKey<FormState>();
+
+  // Создаем экземпляр сервиса аутентификации
   final authService = Auth();
 
   @override
   void initState() {
     super.initState();
+    // Инициализируем контроллер email при создании виджета
     _emailController = TextEditingController();
   }
 
@@ -26,35 +34,43 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // меню сверху
+        // Заголовок в верхней панели
         title: const Text('Reset Password'),
       ),
       body: Center(
         child: Padding(
+          // Отступы от краев экрана
           padding: const EdgeInsets.all(16.0),
           child: Form(
+            // Связываем форму с нашим ключом
             key: _formKey,
             child: Column(
-              mainAxisSize:
-                  MainAxisSize.min, //все элементы растянуты по минимуму
+              // Колонка занимает минимально необходимое пространство
+              mainAxisSize: MainAxisSize.min,
               children: [
+                // Поле ввода email
                 TextFormField(
-                  controller: _emailController,
+                  controller: _emailController, // Привязываем контроллер
                   decoration: const InputDecoration(
-                    labelText: 'Email',
-                    hintText: 'Enter your Email',
-                    border: OutlineInputBorder(),
+                    labelText: 'Email', // Подпись над полем
+                    hintText: 'Enter your Email', // Подсказка внутри поля
+                    border: OutlineInputBorder(), // Рамка вокруг поля
                   ),
+                  // Валидатор - функция проверки корректности введенных данных
                   validator: validateEmail,
                 ),
+                // Просто пустое пространство высотой 20 пикселей
                 const SizedBox(
                   height: 20.0,
                 ),
+                // Кнопка отправки ссылки для восстановления
                 ElevatedButton(
                   onPressed: () {
-                    //Логика валидации ташего текста
+                    // Проверяем, прошла ли форма валидацию
                     if (_formKey.currentState!.validate()) {
+                      // Если email валиден - отправляем запрос на восстановление
                       authService.repearPassword(email: _emailController.text);
+                      // Закрываем текущий экран и возвращаемся назад
                       Navigator.pop(context);
                     }
                   },

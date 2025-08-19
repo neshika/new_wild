@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:new_wild/main.dart';
 import 'package:new_wild/ui/screens/scenario_generation/components/generate_scenario_tile.dart';
 
 void main() {
