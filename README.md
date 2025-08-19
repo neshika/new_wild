@@ -22,10 +22,9 @@
 
 <div align="center">
 
-| Экран приветствия | Главный экран | Генерация сценария | Мои сценарии |
+| Главный экран | Экран выбора сценария | Генерация сценария | Мои сценарии |
 | :---: | :---: | :---: | :---: |
-| <img src="assets/screenshots/login.jpg" width="200"> <br> *Описание экрана входа* | <img src="assets/screenshots/home.jpg" width="200"> <br> *Описание главного экрана* | <img src="assets/screenshots/form.jpg" width="200"> <br> *Описание формы* | <img src="assets/screenshots/library.jpg" width="200"> <br> *Описание библиотеки* |
-
+| <img src="assets/screenshots/logo.png" width="200"> | <img src="assets/screenshots/choose.png" width="200"> | <img src="assets/screenshots/generate.png" width="200"> | <img src="assets/screenshots/text.png" width="200"> |
 </div>
 
 ## 🛠️ Технологический стек
