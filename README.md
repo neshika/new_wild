@@ -22,10 +22,9 @@
 
 <div align="center">
 
-| Экран приветствия | Главный экран | Генерация сценария | Мои сценарии |
+| Главный экран | Экран выбора сценария | Генерация сценария | Мои сценарии |
 | :---: | :---: | :---: | :---: |
-| <img src="assets/screenshots/login.jpg" width="200"> <br> *Описание экрана входа* | <img src="assets/screenshots/home.jpg" width="200"> <br> *Описание главного экрана* | <img src="assets/screenshots/form.jpg" width="200"> <br> *Описание формы* | <img src="assets/screenshots/library.jpg" width="200"> <br> *Описание библиотеки* |
-
+| <img src="assets/screenshots/logo.png" width="200"> | <img src="assets/screenshots/choose.png" width="200"> | <img src="assets/screenshots/generate.png" width="200"> | <img src="assets/screenshots/text.png" width="200"> |
 </div>
 
 ## 🛠️ Технологический стек
@@ -89,24 +88,76 @@
 
 ```
 lib/
-├── main.dart                 # Точка входа, инициализация Firebase и Store
-├── models/                  # Модели данных (User, Scenario, etc.)
-├── redux/                   # Redux стейт, actions, reducers, middleware
-│   ├── state/
-│   ├── actions/
-│   └── reducers/
-├── services/                # Слой работы с API и Firebase
-│   ├── api_service.dart    # Клиент для работы с прокси ChatGPT
-│   └── firebase_service.dart
-├── ui/                     # Пользовательский интерфейс
-│   ├── screens/            # Экраны приложения
-│   │   ├── login_screen.dart
-│   │   ├── home_screen.dart
-│   │   ├── form_screen.dart
-│   │   └── library_screen.dart
-│   └── widgets/            # Переиспользуемые виджеты
-└── utils/                  # Вспомогательные утилиты (constants, helpers)
+├── models/
+│   └── scenario_result_model.dart
+├── services/
+│   ├── auth.dart
+│   ├── dio_client.dart
+│   ├── firebase_storage.dart
+│   ├── helpers.dart
+│   └── scenario_storage.dart
+├── ui/
+│   └── screens/
+│       ├── authorization/
+│       │   ├── forgot_password_screen.dart
+│       │   └── login_screen.dart
+│       ├── saved_scenarios/
+│       │   ├── components/
+│       │   │   ├── scenario_item.dart
+│       │   │   └── stub.dart
+│       │   └── saved_scenarios_screen.dart
+│       ├── scenario_generation/
+│       │   ├── components/
+│       │   │   ├── generate_scenario_tile.dart
+│       │   │   └── scenario_description_textfield.dart
+│       │   ├── platform_selection_screen.dart
+│       │   └── scenario_generation_screen.dart
+│       ├── home_screen.dart
+│       └── constants.dart
+└── main.dart
 ```
+
+## Описание текущей структуры:
+
+### 1. **Корневой уровень (lib/)**
+- `main.dart` - точка входа приложения
+- `constants.dart` - глобальные константы приложения
+
+### 2. **Папка models/**
+- `scenario_result_model.dart` - модель данных для результатов сценариев
+
+### 3. **Папка services/**
+Содержит все сервисы и логику работы с данными:
+- `auth.dart` - сервис аутентификации
+- `dio_client.dart` - HTTP-клиент для работы с API
+- `firebase_storage.dart` - работа с Firebase Storage
+- `helpers.dart` - вспомогательные функции
+- `scenario_storage.dart` - сервис для работы с хранилищем сценариев
+
+### 4. **Папка ui/screens/**
+Содержит все экраны приложения, сгруппированные по функциональности:
+
+#### **authorization/** - Экран авторизации
+- `login_screen.dart` - экран входа
+- `forgot_password_screen.dart` - экран восстановления пароля
+
+#### **saved_scenarios/** - Сохраненные сценарии
+- `saved_scenarios_screen.dart` - основной экран
+- `components/` - компоненты для этого экрана
+  - `scenario_item.dart` - элемент списка сценариев
+  - `stub.dart` - заглушка или вспомогательный компонент
+
+#### **scenario_generation/** - Генерация сценариев
+- `scenario_generation_screen.dart` - основной экран генерации
+- `platform_selection_screen.dart` - выбор платформы
+- `components/` - компоненты генерации
+  - `generate_scenario_tile.dart` - плитка/карточка генерации
+  - `scenario_description_textfield.dart` - поле ввода описания
+
+#### **Общие экраны**
+- `home_screen.dart` - главный экран приложения
+
+
 
 ## 📝 Как пользоваться
 
