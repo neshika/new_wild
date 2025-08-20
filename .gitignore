@@ -22,6 +22,7 @@ migrate_working_dir/
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
 .vscode/
+.lib/services/dio.client.dart
 
 # Flutter/Dart/Pub related
 **/doc/api/
@@ -33,7 +34,7 @@ migrate_working_dir/
 .pub/
 /build/
 /google-services.json
-**/lib/services/dio.client.dart
+
 
 
 # Symbolication related
