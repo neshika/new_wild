@@ -33,7 +33,7 @@ migrate_working_dir/
 .pub/
 /build/
 /google-services.json
-lib/services/dio.client.dart
+**/lib/services/dio.client.dart
 
 
 # Symbolication related
