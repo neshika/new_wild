@@ -1,13 +1,18 @@
 // Импортируем необходимые библиотеки Flutter
 import 'package:flutter/material.dart';
+import 'package:flutter_redux/flutter_redux.dart';
+import 'package:new_wild/redux/actions.dart';
+import 'package:new_wild/redux/state.dart';
 // Импортируем клиент для работы с OpenAI API
 import 'package:new_wild/services/dio_client.dart';
 // Импортируем сервис для работы с Firebase Firestore
 import 'package:new_wild/services/firebase_storage.dart';
 // Импортируем вспомогательные функции и enum SocialPlatform
 import 'package:new_wild/services/helpers.dart';
+import 'package:new_wild/ui/screens/saved_scenarios/components/stub.dart';
+import 'package:new_wild/ui/screens/scenario_generation/scenarion_description_form.dart';
 // Импортируем кастомное текстовое поле
-import 'package:new_wild/ui/screens/scenario_generation/components/scenario_description_textfield.dart';
+import 'package:redux/redux.dart';
 
 // Экран генерации нового сценария
 class ScenarioGenerationScreen extends StatefulWidget {
@@ -37,9 +42,6 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
   // Экземпляр клиента для работы с API
   final client = DioClient.instance;
 
-  // Флаг состояния загрузки
-  bool isLoading = false;
-
   @override
   void dispose() {
     // Важно! Очищаем контроллеры при уничтожении виджета чтобы избежать утечек памяти
@@ -51,134 +53,91 @@ class _ScenarioGenerationScreenState extends State<ScenarioGenerationScreen> {
     callToActionController.dispose();
   }
 
+  void loadScenario(Store store) async {
+    if (formKey.currentState!.validate()) {
+      // Генерируем сценарий через API
+      try {
+        store.dispatch(LoadScenarioAction());
+        final res = await getScenario(
+            socialPlatform: widget.socialPlatform,
+            videoTheme: videoThemeController.text,
+            targetAudience: targetAudienceController.text,
+            videoLength: videolengthController.text,
+            contentStyle: contentStyleThemeController.text,
+            callToAction: callToActionController.text,
+            client: client);
+
+        // Сохраняем результат в Firebase
+        await FirebaseStorage().saveScenario(res);
+
+        //если все удачно, то возвращаем что все удачно
+        store.dispatch(LoadScenarioSuccessAction());
+      } on Exception catch (error) {
+        store.dispatch(LoadScenarioFailureAction(error.toString()));
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    final store = StoreProvider.of<ScenarioState>(context);
+
     return Scaffold(
       appBar: AppBar(title: Text('Generate new video scenario')),
-      body: Padding(
-        padding: EdgeInsets.all(16.0),
-        // Обертываем в SingleChildScrollView для возможности скролла
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey, // Связываем форму с ключом
-            child: Column(
-              children: [
-                // Поле ввода темы видео
-                ScenarioDescriptionTextfield(
-                  title: 'Enter the theme of the video',
-                  hint: 'Video theme',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a video theme.';
-                    }
-                    return null;
-                  },
-                  controller: videoThemeController,
+      body: SafeArea(
+        child: Padding(
+          padding: EdgeInsets.all(16.0),
+          // Обертываем в SingleChildScrollView для возможности скролла
+          child: StoreConnector<ScenarioState, ScenarioState>(
+            converter: (store) => store.state,
+            builder: (context, state) {
+              if (state.loadingStatus == LoadingStatus.defaultStatus ||
+                  state.loadingStatus == LoadingStatus.success) {
+                return Column(
+                  children: [
+                    //занимает все возможное пространство
+                    Expanded(
+                      child: ScenarionDescriptionForm(
+                          formKey: formKey,
+                          videoThemeController: videoThemeController,
+                          targetAudienceController: targetAudienceController,
+                          videolengthController: videolengthController,
+                          contentStyleThemeController:
+                              contentStyleThemeController,
+                          callToActionController: callToActionController),
+                    ),
+                    const SizedBox(height: 24.0),
+                    ElevatedButton(
+                      onPressed: () => loadScenario(store),
+                      // Стиль кнопки
+                      style: ElevatedButton.styleFrom(
+                        padding: EdgeInsetsDirectional.all(10.0),
+                      ),
+                      // Отображаем либо индикатор загрузки, либо текст
+                      child: const Text(
+                        'Создать',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                    ),
+                  ],
+                );
+              }
+              if (state.loadingStatus == LoadingStatus.failure) {
+                return Center(
+                  child: Stub(
+                      text: 'Ошибка! \nПопробуйте позже',
+                      icon: Icons.warning,
+                      iconColor: Colors.red[800]),
+                );
+              }
+              return Center(
+                child: SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CircularProgressIndicator(),
                 ),
-                const SizedBox(height: 16.0),
-
-                // Поле ввода целевой аудитории
-                ScenarioDescriptionTextfield(
-                  title: 'Enter the target audience',
-                  hint: 'Target audience',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the target audience.';
-                    }
-                    return null;
-                  },
-                  controller: targetAudienceController,
-                ),
-                const SizedBox(height: 16.0),
-
-                // Поле ввода длины видео в секундах
-                ScenarioDescriptionTextfield(
-                  title: 'Enter the length of the video in seconds (15,30,60)',
-                  hint: 'Length of the video',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the length of the video.';
-                    }
-                    if (int.tryParse(value) == null) {
-                      return 'Please enter a valid number.';
-                    }
-                    return null;
-                  },
-                  controller: videolengthController,
-                ),
-                const SizedBox(height: 16.0),
-
-                // Поле ввода стиля контента
-                ScenarioDescriptionTextfield(
-                  title: 'Enter the style of content',
-                  hint: 'Style content',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter the style content.';
-                    }
-                    return null;
-                  },
-                  controller: contentStyleThemeController,
-                ),
-                const SizedBox(height: 16.0),
-
-                // Поле ввода призыва к действию
-                ScenarioDescriptionTextfield(
-                  title: 'Enter a call to action',
-                  hint: 'Call to action',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Please enter a call to action.';
-                    }
-                    return null;
-                  },
-                  controller: callToActionController,
-                ),
-                const SizedBox(height: 24.0),
-
-                // Кнопка отправки формы
-                ElevatedButton(
-                  onPressed: () async {
-                    // Проверяем валидность всех полей формы
-                    if (formKey.currentState!.validate()) {
-                      setState(() {
-                        isLoading = true; // Показываем индикатор загрузки
-                      });
-
-                      // Генерируем сценарий через API
-                      final res = await getScenario(
-                          socialPlatform: widget.socialPlatform,
-                          videoTheme: videoThemeController.text,
-                          targetAudience: targetAudienceController.text,
-                          videoLength: videolengthController.text,
-                          contentStyle: contentStyleThemeController.text,
-                          callToAction: callToActionController.text,
-                          client: client);
-
-                      // Сохраняем результат в Firebase
-                      await FirebaseStorage().saveScenario(res);
-
-                      setState(() {
-                        isLoading = false; // Скрываем индикатор загрузки
-                      });
-                    }
-                  },
-                  // Стиль кнопки
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsetsDirectional.all(10.0),
-                  ),
-                  // Отображаем либо индикатор загрузки, либо текст
-                  child: isLoading
-                      ? const Center(
-                          child: CircularProgressIndicator(),
-                        )
-                      : const Text(
-                          'Submit',
-                          style: TextStyle(fontSize: 18.0),
-                        ),
-                ),
-              ],
-            ),
+              );
+            }, //builder
           ),
         ),
       ),
